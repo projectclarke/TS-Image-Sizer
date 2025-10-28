@@ -1,115 +1,116 @@
-Image Resizer — 2400×2400 on White (Windows/macOS/Linux)
+# 🖼️ Image Resizer — 2400×2400 on White (Windows/macOS/Linux)
 
-A tiny utility that batch-processes images in the current folder, centres them on a 2400×2400 white canvas, preserves aspect ratio, and saves high-quality JPG copies into an output_2400 subfolder.
+A simple one-click image resizing tool.  
+It batch-processes all images in the **current folder**, centres them on a **2400×2400 white canvas**, preserves aspect ratio, and saves clean high-quality JPG copies into an `output_2400` folder.
 
-Supported inputs: .jpg, .jpeg, .png
+---
 
-Output: centred on white, scaled so the longest side becomes 2400, saved as *_2400.jpg at quality 95 in output_2400/.
+## 📦 Features
 
-Repo contents
+- ✅ Automatically resizes and centres every image in the folder  
+- ✅ Scales longest side to **2400 px** (keeps proportions)  
+- ✅ Adds a **white background** (useful for PNG transparency)  
+- ✅ Outputs high-quality `.jpg` images (quality = 95)  
+- ✅ Creates an `output_2400/` folder automatically  
+- ✅ Works via **double-click on Windows** or command line on macOS/Linux  
 
-resize_core.py — core Pillow script that does the resizing, centring, and export
+---
 
-resize_to_2400.bat — Windows helper for double-click execution (optional)
+## 🗂️ Repository contents
 
-Prerequisites
+| File | Description |
+|------|--------------|
+| `resize_core.py` | Core Python script that does the resizing, centring, and exporting |
+| `resize_to_2400.bat` | Windows helper script for double-click execution (optional) |
 
-Python 3.8+
+---
 
-Pillow (pip install Pillow)
+## ⚙️ Requirements
 
-Install commands
-# Upgrade pip (recommended)
+- **Python 3.8 or higher**  
+- **Pillow** (Python Imaging Library fork)
+
+### Install dependencies
+
+```bash
 python -m pip install --upgrade pip
-
-# Install Pillow
 python -m pip install --upgrade Pillow
+On some systems use python3 instead of python.
 
-
-(If your system uses python3, swap python for python3.)
-
-Quick start
-Windows (double-click)
-
-Put resize_core.py and resize_to_2400.bat in the folder that contains your images.
+🚀 Quick Start
+🪟 Windows (double-click)
+Place resize_core.py and resize_to_2400.bat in the same folder as your images.
 
 Double-click resize_to_2400.bat.
 
-Processed files appear in output_2400/ with _2400.jpg suffix.
+Processed files will appear in a new folder called output_2400/.
 
-Prefer the terminal?
+Optional manual method:
 
+bat
+Copy code
 cd path\to\your\images
 python resize_core.py
-
-macOS / Linux (terminal)
+🍎 macOS / 🐧 Linux
+bash
+Copy code
 cd /path/to/your/images
 python3 resize_core.py
+Outputs are saved in output_2400/.
 
+🔍 How it Works
+The script creates output_2400/ if it doesn’t exist.
 
-Outputs will be written to output_2400/.
+It scans the folder for .jpg, .jpeg, and .png files.
 
-How it works
+For each image:
 
-Creates output_2400/ if it doesn’t exist.
+Opens the image and converts transparency to white.
 
-For each JPG/PNG in the folder (ignoring the output folder itself), it:
+Calculates the scale so the longest side becomes 2400 px.
 
-Opens the image (handles transparency)
+Resizes using high-quality Lanczos filtering.
 
-Computes a scale so the largest dimension becomes 2400 px, resizes with a high-quality filter
+Pastes it onto a 2400×2400 white background, centred perfectly.
 
-Pastes onto a white 2400×2400 background, centred
+Saves the result as filename_2400.jpg (quality 95).
 
-Writes *_2400.jpg (quality 95) into output_2400/
+🧰 Customisation
+Change target size:
 
-Usage details
+python
+Copy code
+OUTPUT_SIZE = 2400  # change to any square size, e.g., 3000
+Change background colour:
 
-Input formats: .jpg, .jpeg, .png in the current directory only (no subfolders)
+python
+Copy code
+bg = Image.new('RGB', (OUTPUT_SIZE, OUTPUT_SIZE), 'white')  # e.g., 'black' or '#f5f5f5'
+🧩 Troubleshooting
+Issue	Solution
+No JPG/JPEG/PNG files found	Ensure script is in same folder as your images
+ModuleNotFoundError: No module named 'PIL'	Run python -m pip install Pillow
+python not recognised (Windows)	Reinstall Python and tick “Add Python to PATH”
+Soft or blurry output	The script already uses Lanczos (best quality for resizing)
 
-Transparency: PNG transparency is composited onto white
+🧠 Why 2400×2400?
+Many marketplaces and catalogues require square, high-resolution product images.
+A 2400 px square canvas keeps file sizes reasonable while ensuring crisp detail for thumbnails and print layouts.
 
-Naming: originalname_2400.jpg (always JPG)
-
-Duplicates: Re-running will overwrite files of the same name in output_2400/
-
-Customising
-
-Want a different box size? Edit resize_core.py:
-
-OUTPUT_SIZE = 2400  # set your target box size here
-
-
-Change the background colour (e.g., to black):
-
-bg = Image.new('RGB', (OUTPUT_SIZE, OUTPUT_SIZE), 'white')  # change 'white'
-
-Troubleshooting
-
-“No JPG/JPEG/PNG files found.”
-Ensure the script is in the same folder as your images and filenames end with .jpg, .jpeg or .png.
-
-ModuleNotFoundError: No module named 'PIL'
-Install Pillow in the interpreter you’re using:
-
-python -m pip install --upgrade Pillow
-
-
-Windows: python not recognised
-Install Python and ensure “Add Python to PATH” is ticked, or install via Microsoft Store.
-
-Why 2400×2400?
-
-Square, high-resolution canvases are common for marketplaces and catalogues. 2400 px provides headroom for crisp thumbnails and moderate crops while keeping file sizes practical. The script ensures aspect-correct scaling and centred placement to avoid distortion.
-
-Roadmap
-
-Optional CLI flags (e.g., --size 3000, --bg "#f5f5f5", --formats .tif,.webp)
+🗺️ Roadmap
+CLI arguments (e.g., --size 3000, --bg "#f5f5f5")
 
 Recursive folder support
 
-Option to preserve original format
+Preserve original format (e.g., PNG→PNG if desired)
 
-Contributing
+🤝 Contributing
+Pull requests are welcome!
+Please keep it dependency-light (only Pillow) and prioritise clarity and reliability.
 
-PRs welcome. Please keep dependencies minimal and code readable.
+📄 Licence
+MIT Licence — free to use, modify, and distribute.
+
+❤️ Credits
+Built with Python and Pillow.
+Tested on Windows 11 and macOS Sonoma.
