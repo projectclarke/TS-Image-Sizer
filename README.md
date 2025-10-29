@@ -1,116 +1,102 @@
-# 🖼️ Image Resizer — 2400×2400 on White (Windows/macOS/Linux)
+# 🖼️ Image Resizer 2400x2400
 
-A simple one-click image resizing tool.  
-It batch-processes all images in the **current folder**, centres them on a **2400×2400 white canvas**, preserves aspect ratio, and saves clean high-quality JPG copies into an `output_2400` folder.
+A simple yet powerful **Python + Batch** tool that automatically resizes and cleans up images for product catalogues, e-commerce listings, and marketing materials.  
 
----
-
-## 📦 Features
-
-- ✅ Automatically resizes and centres every image in the folder  
-- ✅ Scales longest side to **2400 px** (keeps proportions)  
-- ✅ Adds a **white background** (useful for PNG transparency)  
-- ✅ Outputs high-quality `.jpg` images (quality = 95)  
-- ✅ Creates an `output_2400/` folder automatically  
-- ✅ Works via **double-click on Windows** or command line on macOS/Linux  
+It scales, centres, and cleans your images on a perfect **2400 × 2400 white background** — removing unwanted white borders and keeping a professional, consistent look across your range.
 
 ---
 
-## 🗂️ Repository contents
+## 🚀 Features
 
-| File | Description |
-|------|--------------|
-| `resize_core.py` | Core Python script that does the resizing, centring, and exporting |
-| `resize_to_2400.bat` | Windows helper script for double-click execution (optional) |
+✅ **Auto-resize**  
+Scales each image so its **largest side fits within a 2400 × 2400 frame**, maintaining perfect aspect ratio.  
+
+✅ **White background removal**  
+Detects near-white backgrounds and makes them transparent before placing the image on a clean white canvas.  
+
+✅ **Auto-crop to subject**  
+After background removal, the script intelligently crops away any remaining empty space while keeping a small *safe zone* to avoid clipping the subject.  
+
+✅ **Consistent margin**  
+Adds a **200 px margin** around your subject, ensuring it never touches the edges of the final frame.  
+
+✅ **Centred output**  
+The image is placed precisely in the centre of a white 2400×2400 background for uniform presentation.  
+
+✅ **Batch processing**  
+Handles every `.jpg`, `.jpeg`, and `.png` in the folder automatically.
 
 ---
 
-## ⚙️ Requirements
+## 📂 Output
 
-- **Python 3.8 or higher**  
-- **Pillow** (Python Imaging Library fork)
+All processed images are saved into a sub-folder named:
 
-### Install dependencies
+output_2400/
 
-```bash
-python -m pip install --upgrade pip
-python -m pip install --upgrade Pillow
-On some systems use python3 instead of python.
+vbnet
+Copy code
 
-🚀 Quick Start
-🪟 Windows (double-click)
-Place resize_core.py and resize_to_2400.bat in the same folder as your images.
+Each image is renamed with a `_2400` suffix, for example:
+
+myimage.jpg → output_2400/myimage_2400.jpg
+
+yaml
+Copy code
+
+---
+
+## ⚙️ Installation
+
+1. Install [Python](https://www.python.org/downloads/) (version 3.7+ recommended).  
+   During installation, tick **“Add Python to PATH”**.
+
+2. Install Pillow (Python Imaging Library):
+
+   ```bash
+   pip install pillow
+🧩 Usage
+Option 1 – Double-Click Method (Windows)
+Copy both files into the folder containing your images:
+
+resize_to_2400.bat
+
+resize_core.py
 
 Double-click resize_to_2400.bat.
 
-Processed files will appear in a new folder called output_2400/.
+Wait until it finishes — the results will appear inside output_2400.
 
-Optional manual method:
+Option 2 – Command Line
+You can also run the Python script directly:
 
-bat
-Copy code
-cd path\to\your\images
-python resize_core.py
-🍎 macOS / 🐧 Linux
 bash
 Copy code
-cd /path/to/your/images
-python3 resize_core.py
-Outputs are saved in output_2400/.
+python resize_core.py
+🧠 How It Works
+Scans the folder for supported image formats.
 
-🔍 How it Works
-The script creates output_2400/ if it doesn’t exist.
+Removes white backgrounds by turning near-white pixels transparent.
 
-It scans the folder for .jpg, .jpeg, and .png files.
+Crops tightly around the subject, leaving a small safe border.
 
-For each image:
+Resizes the subject to fit inside a 2200×2200 area (allowing 200 px margin).
 
-Opens the image and converts transparency to white.
+Centres the image on a 2400×2400 white canvas.
 
-Calculates the scale so the longest side becomes 2400 px.
+Saves the result as a high-quality .jpg in output_2400.
 
-Resizes using high-quality Lanczos filtering.
+🔧 Configuration
+Inside resize_core.py you can adjust:
 
-Pastes it onto a 2400×2400 white background, centred perfectly.
+Variable	Default	Description
+OUTPUT_SIZE	2400	Final canvas size (square)
+MARGIN	200	Margin on each side (in pixels)
+safe_border	20	Extra safe pixels when auto-cropping
+threshold	240	White detection threshold (0–255)
 
-Saves the result as filename_2400.jpg (quality 95).
-
-🧰 Customisation
-Change target size:
-
-python
-Copy code
-OUTPUT_SIZE = 2400  # change to any square size, e.g., 3000
-Change background colour:
-
-python
-Copy code
-bg = Image.new('RGB', (OUTPUT_SIZE, OUTPUT_SIZE), 'white')  # e.g., 'black' or '#f5f5f5'
-🧩 Troubleshooting
-Issue	Solution
-No JPG/JPEG/PNG files found	Ensure script is in same folder as your images
-ModuleNotFoundError: No module named 'PIL'	Run python -m pip install Pillow
-python not recognised (Windows)	Reinstall Python and tick “Add Python to PATH”
-Soft or blurry output	The script already uses Lanczos (best quality for resizing)
-
-🧠 Why 2400×2400?
-Many marketplaces and catalogues require square, high-resolution product images.
-A 2400 px square canvas keeps file sizes reasonable while ensuring crisp detail for thumbnails and print layouts.
-
-🗺️ Roadmap
-CLI arguments (e.g., --size 3000, --bg "#f5f5f5")
-
-Recursive folder support
-
-Preserve original format (e.g., PNG→PNG if desired)
-
-🤝 Contributing
-Pull requests are welcome!
-Please keep it dependency-light (only Pillow) and prioritise clarity and reliability.
-
-📄 Licence
-MIT Licence — free to use, modify, and distribute.
-
-❤️ Credits
-Built with Python and Pillow.
-Tested on Windows 11 and macOS Sonoma.
+🧪 Example Results
+Input	Output
+Product photo on white	Background cleaned, cropped, centred, 2400×2400
+Transparent PNG	Preserved and centred with white background
+Dark background photo	Scaled and centred without background removal
